@@ -1,0 +1,22 @@
+name: train_model
+
+entry_points:
+  main:
+    parameters:
+      data_path:
+        description: path of input dataset
+        type: str 
+      model_config:
+        description: path of yaml file containing model params for training 
+        type: str 
+      random_state: 
+        description: seed for random number generator
+        type: number
+      test_size: 
+        description: size for the test set as a fraction of the training set
+        type: number
+      model_save_path: 
+        description: path for the model to be saved
+        type: str
+    command: >-
+      python train_model.py --data_path {data_path} --model_config {model_config} --random_state {random_state} --test_size {test_size} --model_save_path {model_save_path}
