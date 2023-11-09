@@ -1,0 +1,10 @@
+name: data_check
+
+entry_points:
+  main:
+    parameters:
+      data_path:
+        description: path of input dataset
+        type: str
+    command: >-
+      pytest -s -vv . --data_path {data_path} >  data_check.log
