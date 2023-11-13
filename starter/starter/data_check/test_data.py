@@ -6,20 +6,22 @@ logger = logging.getLogger()
 
 def test_feature_presence(data):
     '''assert the features used for training are correct'''
-    ref_features = {'age',
-    'workclass',
-    'fnlgt',
-    'education',
-    'education-num',
-    'marital-status',
-    'occupation',
-    'relationship',
-    'race',
-    'sex',
-    'capital-gain',
-    'capital-loss',
-    'hours-per-week',
-    'native-country'}
+    ref_features = {
+        'age',
+        'workclass',
+        'fnlgt',
+        'education',
+        'education-num',
+        'marital-status',
+        'occupation',
+        'relationship',
+        'race',
+        'sex',
+        'capital-gain',
+        'capital-loss',
+        'hours-per-week',
+        'native-country'
+        }
 
     data_features = set(data.columns)
     data_features.remove('salary')
@@ -41,6 +43,4 @@ def test_workclass_classes(data):
                                             ' Self-emp-inc',
                                             ' Without-pay',
                                             ' Never-worked'}
-
-
 

@@ -1,0 +1,16 @@
+name: train_model
+
+entry_points:
+  main:
+    parameters:
+      raw_data_path:
+        description: path of input dataset to be split
+        type: str 
+      random_state: 
+        description: seed for random number generator
+        type: number
+      test_size: 
+        description: size for the test set as a fraction of the training set
+        type: number
+    command: >-
+      python run.py --raw_data_path {raw_data_path} --random_state {random_state} --test_size {test_size}

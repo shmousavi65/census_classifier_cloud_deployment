@@ -1,6 +1,6 @@
+import itertools
 import numpy as np
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder, StandardScaler
 
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
