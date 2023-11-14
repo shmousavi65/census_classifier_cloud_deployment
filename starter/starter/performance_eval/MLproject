@@ -1,0 +1,18 @@
+name: train_model
+
+entry_points:
+  main:
+    parameters:
+      output_label: 
+        description: data column name used for output label
+        type: str 
+      data_path:
+        description: path of input dataset used for evaluation
+        type: str 
+      model_path: 
+        description: path for the model to be used for evaluation
+        type: str
+    command: >-
+      python run.py --data_path {data_path} \
+          --model_path {model_path} \
+          --output_label {output_label}

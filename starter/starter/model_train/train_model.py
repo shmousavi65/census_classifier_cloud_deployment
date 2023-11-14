@@ -14,9 +14,10 @@ def go(args):
     num_features = args.numerical_features
     data_path = args.data_path
     model_save_path = args.model_save_path
+    output_label = args.output_label
     
     # create and train a pipeline
-    input_model, output_transformer = train(data_path, cat_features, num_features, model_params, "salary")
+    input_model, output_transformer = train(data_path, cat_features, num_features, model_params, output_label)
 
     # export the pipeline
     export_model(input_model, output_transformer, model_save_path)
@@ -60,6 +61,13 @@ if __name__ == "__main__":
         "--model_save_path",
         type=str,
         help=" path to save the model",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--output_label",
+        type=str,
+        help="data column name used as output label",
         required=True,
     )
 

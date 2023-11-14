@@ -48,7 +48,25 @@ def go(config: DictConfig):
                     "numerical_features": config['train']['num_features'],
                     "categorical_features": config['train']['cat_features'],
                     "model_params":config['train']['model_params'],
-                    'model_save_path': config['model']['model_save_path']
+                    'model_save_path': config['model']['model_save_path'],
+                    'output_label': config['train']['output_label']
+                },
+                env_manager="local"
+            )
+
+    if "performace_eval" in exec_steps_list:
+        raw_data_path = config["data"]["raw_data_path"]
+        raw_dirname = os.path.dirname(raw_data_path)
+        raw_basename = os.path.basename(raw_data_path)
+        test_basename = raw_basename.split(".")[0] + "_test.csv"  
+        test_data_path = os.path.join(raw_dirname, test_basename)
+        _ = mlflow.run(
+                os.path.join(root_path, "performance_eval"),
+                "main", 
+                parameters={
+                    'data_path' : test_data_path,
+                    'model_path': config['model']['model_save_path'],
+                    'output_label': config['train']['output_label']
                 },
                 env_manager="local"
             )
