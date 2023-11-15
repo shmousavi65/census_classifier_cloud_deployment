@@ -2,58 +2,60 @@ import argparse
 import yaml
 import sys
 import itertools
+import ast
 sys.path.append('../')
 from ml.model import *
 
 import pandas as pd
 
-# def get_sub_df_cat(df, feature, value):
-#     sub_df = df[df['feature']==value]
-#     return sub_df
+def get_sub_df_cat(df, feature, value):
+    sub_df = df[df[feature]==value]
+    return sub_df
 
-# def get_sub_df_performnace(model, sub_df, categorical_features, label, feature, encoder, lb):
-#     performances = {}
-
-#     sub_X, sub_y, _, _ = process_data(
-#         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
-#     )
+def get_performnace_on_df(X_df, y_series, input_pipeline, output_transformer):
+    y = output_transformer.transform(y_series)
+    preds = input_pipeline.predict(X_df)
+    return compute_model_metrics(y, preds)
 
 def go(args):
 
     data_path =  args.data_path
     model_path = args.model_path
     output_label = args.output_label
+    slice_eval_features = list(args.slice_eval_features)
 
     with open(model_path, 'rb') as f:
         model_dict = pickle.load(f)
     input_pipe, output_transformer = model_dict['input'], model_dict['output']
 
     eval_df = pd.read_csv(data_path)
-    y = eval_df[output_label]
-    y = output_transformer.transform(y)
+    
+    y_series = eval_df[output_label]
 
     used_columns = list(itertools.chain.from_iterable([x[2] for x in input_pipe['preprocessor'].transformers]))
-    X = eval_df[used_columns]
-
-    preds = input_pipe.predict(X)
+    X_df = eval_df[used_columns]
 
 
-
-    # feature = args.categorical_feature
-    # data_path = args.data_path
-    # # Get the yaml file containing the parameters
-    # with open(args.model_config) as fp:
-    #     model_config = yaml.safe_load(fp)
-    # cat_features = model_config['train']['cat_features']
-    # model_path = model_config['model']['model_save_path']
+    # performance on entire data
+    precision, recall, fbeta = get_performnace_on_df(X_df, y_series, input_pipe, output_transformer)    
+    mlflow.log_metrics({
+        "test_precision": precision,
+        "test_recall": recall,
+        "test_fbeta": fbeta})
     
-    # # load in the data.
-    # data_df = pd.read_csv(data_path)
-
-    # for value in data_df[feature].unique():
-    #     value_df = get_sub_df_cat(data_df, feature, value)
-        
-
+    if slice_eval_features:
+        for feature in slice_eval_features:
+            vals = eval_df[feature].unique()
+            for val in vals:
+                print("HEEEEEEEEEEEEEEEEE", feature, vals)
+                sub_df = get_sub_df_cat(eval_df, feature, val)
+                sub_y_series = sub_df[output_label]
+                sub_X_df = sub_df[used_columns]
+                precision, recall, fbeta = get_performnace_on_df(sub_X_df, sub_y_series, input_pipe, output_transformer)    
+                mlflow.log_metrics({
+                    f"test_{str.strip(feature)}_{str.strip(val)}_precision": precision,
+                    f"test_{str.strip(feature)}_{str.strip(val)}_recall": recall,
+                    f"test_{str.strip(feature)}_{str.strip(val)}_fbeta": fbeta})
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -84,8 +86,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_eval_features",
-        type=str,
-        nargs="+",
+        type=ast.literal_eval,
         help="list of categorical features for slice evaluation",
         required=False,
         default=None

@@ -12,7 +12,11 @@ entry_points:
       model_path: 
         description: path for the model to be used for evaluation
         type: str
+      slice_eval_features: 
+        description: list of features used for slice_based evaluation
+        type: str
     command: >-
       python run.py --data_path {data_path} \
           --model_path {model_path} \
-          --output_label {output_label}
+          --output_label {output_label} \
+          --slice_eval_features {slice_eval_features}

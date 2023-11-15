@@ -66,7 +66,8 @@ def go(config: DictConfig):
                 parameters={
                     'data_path' : test_data_path,
                     'model_path': config['model']['model_save_path'],
-                    'output_label': config['train']['output_label']
+                    'output_label': config['train']['output_label'],
+                    'slice_eval_features': config['evaluation']['slice_eval_features']
                 },
                 env_manager="local"
             )
