@@ -14,7 +14,7 @@ def get_sub_df_cat(df, feature, value):
 
 def get_performnace_on_df(X_df, y_series, input_pipeline, output_transformer):
     y = output_transformer.transform(y_series)
-    preds = input_pipeline.predict(X_df)
+    preds = inference(input_pipeline, X_df)
     return compute_model_metrics(y, preds)
 
 def go(args):
@@ -24,9 +24,7 @@ def go(args):
     output_label = args.output_label
     slice_eval_features = list(args.slice_eval_features)
 
-    with open(model_path, 'rb') as f:
-        model_dict = pickle.load(f)
-    input_pipe, output_transformer = model_dict['input'], model_dict['output']
+    input_pipe, output_transformer = load_model(model_path)
 
     eval_df = pd.read_csv(data_path)
     
@@ -34,7 +32,6 @@ def go(args):
 
     used_columns = list(itertools.chain.from_iterable([x[2] for x in input_pipe['preprocessor'].transformers]))
     X_df = eval_df[used_columns]
-
 
     # performance on entire data
     precision, recall, fbeta = get_performnace_on_df(X_df, y_series, input_pipe, output_transformer)    
@@ -47,7 +44,6 @@ def go(args):
         for feature in slice_eval_features:
             vals = eval_df[feature].unique()
             for val in vals:
-                print("HEEEEEEEEEEEEEEEEE", feature, vals)
                 sub_df = get_sub_df_cat(eval_df, feature, val)
                 sub_y_series = sub_df[output_label]
                 sub_X_df = sub_df[used_columns]

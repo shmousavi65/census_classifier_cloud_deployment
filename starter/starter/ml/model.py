@@ -87,7 +87,8 @@ def train(df_path, categorical_features, numerical_features, model_params, outpu
     y = output_pipe.fit_transform(y.values).ravel()
     
     input_pipe.fit(X, y)
-    preds = input_pipe.predict(X)
+    preds = inference(input_pipe, X)
+
     precision, recall, fbeta = compute_model_metrics(y, preds)
     
     # log metrics
@@ -104,6 +105,13 @@ def export_model(input_pipe, output_pipe, model_save_path):
     saved_model = {"input":input_pipe, "output":output_pipe}
     with open(model_save_path, 'wb') as f:
         pickle.dump(saved_model, f)
+
+def load_model(model_path):
+    '''load the model from the model_path and retrun input_pipeline and output transformer'''
+    with open(model_path, 'rb') as f:
+        model_dict = pickle.load(f)
+    input_pipe, output_transformer = model_dict['input'], model_dict['output']
+    return input_pipe, output_transformer
 
 
 def compute_model_metrics(y, preds):
