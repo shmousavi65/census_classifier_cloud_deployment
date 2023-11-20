@@ -1,0 +1,15 @@
+artifact_uri: file:///root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/pipeline/outputs/2023-11-20/14-09-03/mlruns/712060336208711864/8509aa6c9a89456f9a660780ee1848bd/artifacts
+end_time: 1700507348986
+entry_point_name: ''
+experiment_id: '712060336208711864'
+lifecycle_stage: active
+run_id: 8509aa6c9a89456f9a660780ee1848bd
+run_name: industrious-bass-606
+run_uuid: 8509aa6c9a89456f9a660780ee1848bd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700507343925
+status: 3
+tags: []
+user_id: root

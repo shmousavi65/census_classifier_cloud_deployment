@@ -1,0 +1,15 @@
+artifact_uri: file:///root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/pipeline/outputs/2023-11-20/14-09-03/mlruns/712060336208711864/24c89827a35148989924064600844306/artifacts
+end_time: 1700507353864
+entry_point_name: ''
+experiment_id: '712060336208711864'
+lifecycle_stage: active
+run_id: 24c89827a35148989924064600844306
+run_name: defiant-mule-367
+run_uuid: 24c89827a35148989924064600844306
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700507349103
+status: 3
+tags: []
+user_id: root

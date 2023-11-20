@@ -1,0 +1,35 @@
+experiment_name: log_reg_1
+execution_steps:
+- data_check
+- split_data
+- model_train
+- performace_eval
+train:
+  test_size: 0.2
+  random_state: 32
+  cat_features:
+  - workclass
+  - education
+  - marital-status
+  - occupation
+  - relationship
+  - race
+  - sex
+  - native-country
+  num_features:
+  - age
+  - fnlgt
+  - education-num
+  - capital-gain
+  - capital-loss
+  - hours-per-week
+  output_label: salary
+  model_params:
+    C: 1
+data:
+  raw_data_path: development/data/census.csv
+model:
+  model_save_path: development/model/model.pkl
+evaluation:
+  slice_eval_features:
+  - sex

@@ -1,0 +1,15 @@
+artifact_uri: file:///root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/pipeline/outputs/2023-11-20/14-09-03/mlruns/712060336208711864/a436fa3321ee4f4ea218c52bbc26a1be/artifacts
+end_time: 1700507365519
+entry_point_name: ''
+experiment_id: '712060336208711864'
+lifecycle_stage: active
+run_id: a436fa3321ee4f4ea218c52bbc26a1be
+run_name: hilarious-whale-18
+run_uuid: a436fa3321ee4f4ea218c52bbc26a1be
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700507360872
+status: 3
+tags: []
+user_id: root

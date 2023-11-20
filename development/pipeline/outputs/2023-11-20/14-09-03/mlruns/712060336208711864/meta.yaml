@@ -1,0 +1,6 @@
+artifact_location: file:///root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/pipeline/outputs/2023-11-20/14-09-03/mlruns/712060336208711864
+creation_time: 1700507343548
+experiment_id: '712060336208711864'
+last_update_time: 1700507343548
+lifecycle_stage: active
+name: log_reg_1

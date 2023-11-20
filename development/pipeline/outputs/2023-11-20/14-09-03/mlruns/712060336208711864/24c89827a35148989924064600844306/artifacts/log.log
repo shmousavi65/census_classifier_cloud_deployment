@@ -1,0 +1,4 @@
+2023-11-20 14:09:13,282 splitted input data to train and test and save them in 
+ /root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/data/census_train.csv 
+ /root/workspace/udacity_course/ML_DevOps/course_3/census_classifier_cloud_deployment/development/data/census_test.csv 
+
