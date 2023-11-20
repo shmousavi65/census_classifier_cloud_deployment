@@ -1,3 +1,5 @@
+experiment_name: log_reg_1
+
 execution_steps:
   - data_check
   - split_data

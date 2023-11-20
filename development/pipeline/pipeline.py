@@ -8,6 +8,8 @@ from omegaconf import DictConfig, OmegaConf
 @hydra.main(config_name='config')
 def go(config: DictConfig):
 
+    mlflow.set_experiment(config["experiment_name"])
+
     root_path = hydra.utils.get_original_cwd()
     data_model_parent_dir = os.path.dirname(os.path.dirname(root_path))    
 
