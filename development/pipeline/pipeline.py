@@ -10,7 +10,6 @@ def go(config: DictConfig):
 
     root_path = hydra.utils.get_original_cwd()
     data_model_parent_dir = os.path.dirname(os.path.dirname(root_path))    
-    print("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", os.path.join(data_model_parent_dir))
 
     exec_steps_list = list(config["execution_steps"])
 
