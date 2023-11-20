@@ -2,7 +2,7 @@ import itertools
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, create_model
-from starter.ml.model import load_model, inference
+from pipeline.ml.model import load_model, inference
 
 # parameters
 path_to_model = "model/model.pkl"

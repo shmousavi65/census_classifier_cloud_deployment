@@ -1,7 +1,7 @@
 import itertools 
 import pandas as pd
 from fastapi.testclient import TestClient
-from starter.ml.model import load_model, inference
+from pipeline.ml.model import load_model, inference
 
 from main import app
 from main import InputItem
@@ -19,7 +19,6 @@ example_df = pd.read_csv(path_to_example_df)
 example_series = example_df.iloc[example_df_index]
 example_series = example_series[used_columns]
 example_dict = example_series.to_dict()
-
 
 client = TestClient(app)
 

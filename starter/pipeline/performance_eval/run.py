@@ -1,12 +1,20 @@
 import argparse
-import yaml
-import sys
+import sys, os
 import itertools
+import logging
 import ast
 sys.path.append('../')
 from ml.model import *
-
 import pandas as pd
+
+log_file = 'log.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.INFO,
+    format="%(asctime)-15s %(message)s"
+    )
+logger = logging.getLogger()
 
 def get_sub_df_cat(df, feature, value):
     sub_df = df[df[feature]==value]
@@ -24,6 +32,7 @@ def go(args):
     output_label = args.output_label
     slice_eval_features = list(args.slice_eval_features)
 
+    logger.info("loading the input_model and output_transformer ...")
     input_pipe, output_transformer = load_model(model_path)
 
     eval_df = pd.read_csv(data_path)
@@ -34,12 +43,14 @@ def go(args):
     X_df = eval_df[used_columns]
 
     # performance on entire data
+    logger.info("calculating the model performance on the entire given data ...")
     precision, recall, fbeta = get_performnace_on_df(X_df, y_series, input_pipe, output_transformer)    
     mlflow.log_metrics({
         "test_precision": precision,
         "test_recall": recall,
         "test_fbeta": fbeta})
     
+    logger.info("calculating the model performance on the slices of the given feature(s) ...")
     if slice_eval_features:
         for feature in slice_eval_features:
             vals = eval_df[feature].unique()
@@ -52,6 +63,12 @@ def go(args):
                     f"test_{str.strip(feature)}_{str.strip(val)}_precision": precision,
                     f"test_{str.strip(feature)}_{str.strip(val)}_recall": recall,
                     f"test_{str.strip(feature)}_{str.strip(val)}_fbeta": fbeta})
+
+
+    logger.info("component run finished successfully!")
+
+    mlflow.log_artifact(log_file)
+    os.remove(log_file)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

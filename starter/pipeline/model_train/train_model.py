@@ -1,10 +1,18 @@
-import sys
+import sys, os
 import ast
 sys.path.append('../')
 from ml.model import *
-import pandas as pd
 import argparse
-import yaml
+import logging
+
+log_file = 'log.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.INFO,
+    format="%(asctime)-15s %(message)s"
+    )
+logger = logging.getLogger()
 
 def go(args):
     
@@ -17,10 +25,17 @@ def go(args):
     output_label = args.output_label
     
     # create and train a pipeline
+    logger.info("training the model ...")
     input_model, output_transformer = train(data_path, cat_features, num_features, model_params, output_label)
 
     # export the pipeline
+    logger.info("exporting the input_model and output_transformer ...")
     export_model(input_model, output_transformer, model_save_path)
+
+    logger.info("component run finished successfully!")
+
+    mlflow.log_artifact(log_file)
+    os.remove(log_file)
     
 
 if __name__ == "__main__":

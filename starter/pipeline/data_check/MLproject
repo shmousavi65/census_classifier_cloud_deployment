@@ -7,4 +7,4 @@ entry_points:
         description: path of input dataset
         type: str
     command: >-
-      pytest -s -vv . --data_path {data_path} >  data_check.log
+      python run.py --data_path {data_path}

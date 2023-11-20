@@ -1,6 +1,17 @@
-import argparse, os
+import argparse, os, sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import logging
+import mlflow
+
+log_file = 'log.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.INFO,
+    format="%(asctime)-15s %(message)s"
+    )
+logger = logging.getLogger()
 
 def go(args):
 
@@ -17,6 +28,9 @@ def go(args):
     train.to_csv(train_save_path, index=False)
     test.to_csv(test_save_path, index=False)
 
+    logger.info(f"splitted input data to train and test and save them in \n {train_save_path} \n {test_save_path} \n")
+    mlflow.log_artifact(log_file)
+    os.remove(log_file)
 
 
 if __name__ == "__main__":

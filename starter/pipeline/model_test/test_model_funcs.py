@@ -10,7 +10,6 @@ logger = logging.getLogger()
 
 def test_get_output_transformer():
     '''assert the output transformer is labelbinarizer'''
-    print("HELELELELLELELELELLELEL")
     assert (get_output_transformer(), LabelBinarizer)
 
 def test_compute_model_metrics():
