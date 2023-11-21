@@ -1,4 +1,5 @@
-import itertools, pickle
+import itertools
+import pickle
 import pandas as pd
 import mlflow
 from sklearn.metrics import fbeta_score, precision_score, recall_score
@@ -7,15 +8,17 @@ from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelBinarizer
 from sklearn.compose import ColumnTransformer
 
-def get_training_inference_pipeline(categorical_features, numerical_features, model_params):
+
+def get_training_inference_pipeline(
+        categorical_features, numerical_features, model_params):
     """
     return the full input pipeline.
 
     Inputs
     ------
-    categorical_features (list): list of categorical features 
-    numerical_features (list): list of numerical features 
-    model_params (dict): ml model parameters 
+    categorical_features (list): list of categorical features
+    numerical_features (list): list of numerical features
+    model_params (dict): ml model parameters
     Returns
     -------
     model (Pipeline): the pipeline including the trasnformers and the ml model
@@ -23,11 +26,11 @@ def get_training_inference_pipeline(categorical_features, numerical_features, mo
     # We need 2 separate preprocessing "tracks":
     # - one for categorical features
     # - one for numerical features
-    
+
     # Categorical preprocessing pipeline
     categorical_features = sorted(categorical_features)
     categorical_transformer = make_pipeline(OneHotEncoder())
-    
+
     # Numerical preprocessing pipeline
     numeric_features = sorted(numerical_features)
     numeric_transformer = make_pipeline(StandardScaler())
@@ -38,11 +41,12 @@ def get_training_inference_pipeline(categorical_features, numerical_features, mo
             ("num", numeric_transformer, numeric_features),
             ("cat", categorical_transformer, categorical_features),
         ],
-        remainder="drop", 
+        remainder="drop",
     )
 
     # Get a list of the columns we used
-    used_columns = list(itertools.chain.from_iterable([x[2] for x in preprocessor.transformers]))
+    used_columns = list(itertools.chain.from_iterable(
+        [x[2] for x in preprocessor.transformers]))
 
     # Append classifier to preprocessing pipeline.
     pipe = Pipeline(
@@ -51,24 +55,27 @@ def get_training_inference_pipeline(categorical_features, numerical_features, mo
             ("classifier", LogisticRegression(**model_params)),
         ]
     )
-    return pipe, used_columns    
+    return pipe, used_columns
+
 
 def get_output_transformer():
     '''return a labelbinarizer to transform the output labels'''
     return LabelBinarizer()
 
 
-def train(df_path, categorical_features, numerical_features, model_params, output_label):
+def train(df_path, categorical_features,
+          numerical_features, model_params, output_label):
     """
-    Train a ml based pipeline, logs the precision, recall, fbeta scores on train data
-      and return the trained pipeline and also output transformer.
+    Train a ml based pipeline, logs the precision, recall, fbeta scores on
+    train data and return the trained pipeline and also output transformer.
 
     Inputs
     ------
-    df_path: path to the train data containing both input features and also output labels
-    categorical_features (list): list of categorical features 
-    numerical_features (list): list of numerical features 
-    model_params (dict): ml model parameters 
+    df_path: path to the train data containing both input features and also
+     output labels
+    categorical_features (list): list of categorical features
+    numerical_features (list): list of numerical features
+    model_params (dict): ml model parameters
     output_label (str): output label column name found in train data
     Returns
     -------
@@ -77,20 +84,21 @@ def train(df_path, categorical_features, numerical_features, model_params, outpu
     """
 
     df = pd.read_csv(df_path)
-    
+
     y = df[output_label]
 
-    input_pipe, params = get_training_inference_pipeline(categorical_features, numerical_features, model_params)
+    input_pipe, params = get_training_inference_pipeline(
+        categorical_features, numerical_features, model_params)
     output_pipe = get_output_transformer()
 
     X = df[params]
     y = output_pipe.fit_transform(y.values).ravel()
-    
+
     input_pipe.fit(X, y)
     preds = inference(input_pipe, X)
 
     precision, recall, fbeta = compute_model_metrics(y, preds)
-    
+
     # log metrics
     mlflow.log_metrics({
         "train_precision": precision,
@@ -101,13 +109,16 @@ def train(df_path, categorical_features, numerical_features, model_params, outpu
 
 
 def export_model(input_pipe, output_pipe, model_save_path):
-    '''save a dict of {"input":input_pipe, "output":output_pipe} in the give path'''
-    saved_model = {"input":input_pipe, "output":output_pipe}
+    '''save a dict of {"input":input_pipe, "output":output_pipe} in the given
+      path'''
+    saved_model = {"input": input_pipe, "output": output_pipe}
     with open(model_save_path, 'wb') as f:
         pickle.dump(saved_model, f)
 
+
 def load_model(model_path):
-    '''load the model from the model_path and retrun input_pipeline and output transformer'''
+    '''load the model from the model_path and retrun input_pipeline and
+     output transformer'''
     with open(model_path, 'rb') as f:
         model_dict = pickle.load(f)
     input_pipe, output_transformer = model_dict['input'], model_dict['output']
@@ -130,7 +141,7 @@ def compute_model_metrics(y, preds):
     recall : float
     fbeta : float
     """
-    
+
     fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)

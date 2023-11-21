@@ -1,9 +1,11 @@
-import sys, os
-import ast
-sys.path.append('../')
-from ml.model import *
-import argparse
 import logging
+import argparse
+import sys
+import os
+import ast
+import mlflow
+sys.path.append('../')
+from ml.model import train, export_model
 
 log_file = 'log.log'
 
@@ -11,11 +13,12 @@ logging.basicConfig(
     filename=log_file,
     level=logging.INFO,
     format="%(asctime)-15s %(message)s"
-    )
+)
 logger = logging.getLogger()
 
+
 def go(args):
-    
+
     # params
     model_params = args.model_params
     cat_features = args.categorical_features
@@ -23,10 +26,11 @@ def go(args):
     data_path = args.data_path
     model_save_path = args.model_save_path
     output_label = args.output_label
-    
+
     # create and train a pipeline
     logger.info("training the model ...")
-    input_model, output_transformer = train(data_path, cat_features, num_features, model_params, output_label)
+    input_model, output_transformer = train(
+        data_path, cat_features, num_features, model_params, output_label)
 
     # export the pipeline
     logger.info("exporting the input_model and output_transformer ...")
@@ -36,7 +40,7 @@ def go(args):
 
     mlflow.log_artifact(log_file)
     os.remove(log_file)
-    
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -57,7 +61,7 @@ if __name__ == "__main__":
         help=" list of numerical features",
         required=True,
     )
-    
+
     parser.add_argument(
         "--categorical_features",
         type=ast.literal_eval,
