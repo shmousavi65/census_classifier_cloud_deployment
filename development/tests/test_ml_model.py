@@ -1,13 +1,11 @@
-from ml.model import compute_model_metrics, get_output_transformer, \
-    get_training_inference_pipeline
 import logging
 import sys
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelBinarizer
-
-
-sys.path.append('../')
+sys.path.append('../pipeline/')
+from ml.model import compute_model_metrics, get_output_transformer, \
+    get_training_inference_pipeline
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()

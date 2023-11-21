@@ -1,12 +1,17 @@
 import itertools
+import sys
+import os
 import pandas as pd
 from fastapi.testclient import TestClient
-from pipeline.ml.model import load_model
+sys.path.append('../pipeline/')
+from ml.model import load_model
+sys.path.append('../')
 from main import app
 
 # parameters
-path_to_model = "model/model.pkl"
-path_to_example_df = "data/census.csv"
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+path_to_model = os.path.join(root_dir,"model/model.pkl")
+path_to_example_df = os.path.join(root_dir,"data/census.csv")
 example_df_index = 0
 
 # load an example input

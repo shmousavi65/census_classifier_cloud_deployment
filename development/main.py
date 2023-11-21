@@ -1,12 +1,16 @@
 import itertools
 import pandas as pd
+import sys
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from pipeline.ml.model import load_model, inference
+sys.path.append('./pipeline/')
+from ml.model import load_model, inference
 
 # parameters
-path_to_model = "model/model.pkl"
-path_to_example_df = "data/census.csv"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+path_to_model = os.path.join(current_dir,"model/model.pkl")
+path_to_example_df = os.path.join(current_dir,"data/census.csv")
 example_df_index = 0
 
 # load the model
