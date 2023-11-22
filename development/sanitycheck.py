@@ -27,8 +27,8 @@ def run_sanity_check(test_dir):
     module = importlib.import_module(module_name)
 
     test_function_names = list(
-        filter(lambda x: inspect.isfunction(getattr(module, x))
-               and not x.startswith('__'), dir(module)))
+        filter(lambda x: inspect.isfunction(
+            getattr(module, x)) and not x.startswith('__'), dir(module)))
 
     test_functions_for_get = list(
         filter(lambda x: inspect.getsource(
@@ -59,8 +59,8 @@ def run_sanity_check(test_dir):
             source = inspect.getsource(getattr(module, func))
             if source.find('.status_code') != -1:
                 TEST_FOR_GET_METHOD_RESPONSE_CODE = True
-            if (source.find('.json') != -1) or (source.find('json.loads')
-                                                != -1):
+            if (source.find('.json') != -1) or \
+               (source.find('json.loads') != -1):
                 TEST_FOR_GET_METHOD_RESPONSE_BODY = True
 
         if not TEST_FOR_GET_METHOD_RESPONSE_CODE:
@@ -86,9 +86,8 @@ def run_sanity_check(test_dir):
         print(FAIL_COLOR + "No test cases were detected for the POST() \
                method.")
         print(FAIL_COLOR + "Please make sure you have TWO test cases for the \
-            POST() method." +
-              "\nOne test case for EACH of the possible inferences \
-                (results/outputs) of the ML model.\n")
+              POST() method." + "\nOne test case for EACH of \
+               the possible inferences (results/outputs) of the ML model.\n")
         SANITY_TEST_PASSING = False
     else:
         if len(test_functions_for_post) == 1:
@@ -97,17 +96,17 @@ def run_sanity_check(test_dir):
             print(FAIL_COLOR + "Only one test case was detected for the \
                   POST() method.")
             print(FAIL_COLOR + "Please make sure you have two test cases \
-                for the POST() method." +
-                  "\nOne test case for EACH of the possible inferences \
-                    (results/outputs) of the ML model.\n")
+                   for the POST() method." + "\nOne test case for EACH of the \
+                    possible inferences \
+                     (results/outputs) of the ML model.\n")
             SANITY_TEST_PASSING = False
 
         for func in test_functions_for_post:
             source = inspect.getsource(getattr(module, func))
             if source.find('.status_code') != -1:
                 TEST_FOR_POST_METHOD_RESPONSE_CODE = True
-            if (source.find('.json') != -1) or (source.find('json.loads')
-                                                != -1):
+            if (source.find('.json') != -1) or \
+               (source.find('json.loads') != -1):
                 TEST_FOR_POST_METHOD_RESPONSE_BODY = True
                 COUNT_POST_METHOD_TEST_FOR_INFERENCE_RESULT += 1
 
