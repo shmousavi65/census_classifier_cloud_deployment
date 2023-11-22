@@ -9,8 +9,8 @@ from ml.model import load_model, inference
 
 # parameters
 current_dir = os.path.dirname(os.path.abspath(__file__))
-path_to_model = os.path.join(current_dir,"model/model.pkl")
-path_to_example_df = os.path.join(current_dir,"data/census.csv")
+path_to_model = os.path.join(current_dir, "model/model.pkl")
+path_to_example_df = os.path.join(current_dir, "data/census.csv")
 example_df_index = 0
 
 # load the model

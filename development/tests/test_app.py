@@ -10,8 +10,8 @@ from main import app
 
 # parameters
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-path_to_model = os.path.join(root_dir,"model/model.pkl")
-path_to_example_df = os.path.join(root_dir,"data/census.csv")
+path_to_model = os.path.join(root_dir, "model/model.pkl")
+path_to_example_df = os.path.join(root_dir, "data/census.csv")
 example_df_index = 0
 
 # load an example input
