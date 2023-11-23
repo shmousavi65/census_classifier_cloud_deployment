@@ -7,7 +7,8 @@ import ast
 import pandas as pd
 import mlflow
 
-sys.path.append('../')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(current_dir))
 from ml.model import inference, compute_model_metrics, load_model
 
 log_file = 'log.log'

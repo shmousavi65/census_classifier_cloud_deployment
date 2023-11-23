@@ -4,7 +4,9 @@ import sys
 import os
 import ast
 import mlflow
-sys.path.append('../')
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(current_dir))
 from ml.model import train, export_model
 
 log_file = 'log.log'

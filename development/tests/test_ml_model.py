@@ -1,9 +1,12 @@
 import logging
 import sys
+import os
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelBinarizer
-sys.path.append('../pipeline/')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+prev_dir = os.path.dirname(current_dir)
+sys.path.append(os.path.join(prev_dir, "pipeline"))
 from ml.model import compute_model_metrics, get_output_transformer, \
     get_training_inference_pipeline
 

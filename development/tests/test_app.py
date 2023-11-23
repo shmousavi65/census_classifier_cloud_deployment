@@ -3,9 +3,11 @@ import sys
 import os
 import pandas as pd
 from fastapi.testclient import TestClient
-sys.path.append('../pipeline/')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+prev_dir = os.path.dirname(current_dir)
+sys.path.append(prev_dir)
+sys.path.append(os.path.join(prev_dir, "pipeline"))
 from ml.model import load_model
-sys.path.append('../')
 from main import app
 
 # parameters
