@@ -1,4 +1,4 @@
 [core]
     remote = gdremote
 ['remote "gdremote"']
-    url = gdrive://1QrinB3SEBhhg-EMoNtOe4Gd9aoJow730
+    url = s3://shm-dvc-server
