@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   build:
@@ -35,7 +36,18 @@ jobs:
         # flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         # flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: "Configure AWS Credentials"
+      uses: aws-actions/configure-aws-credentials@v4.0.1
+      with:
+        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Install DVC
+      uses: iterative/setup-dvc@v1
+    - name: Run DVC pull
+      run: |
+        dvc pull -f
     - name: Test with pytest
       run: |
         cd development/tests
-        pytest -s -vv ./test_ml_model.py
+        pytest -s -vv .
