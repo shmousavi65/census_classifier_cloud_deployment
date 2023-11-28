@@ -8,7 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 prev_dir = os.path.dirname(current_dir)
 sys.path.append(os.path.join(prev_dir, "pipeline"))
 from ml.model import compute_model_metrics, get_output_transformer, \
-    get_training_inference_pipeline
+    get_training_inference_pipeline, load_model
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -38,3 +38,10 @@ def test_get_training_inference_pipeline():
         categorical_features, numerical_features, model_params)
     assert used_columns == ['age', 'score', 'education', 'sex']
     assert isinstance(pipe["classifier"], LogisticRegression)
+
+
+def test_load_model():
+    path_to_model = os.path.join(prev_dir, "model/model.pkl")
+    input_pipe, output_transformer = load_model(path_to_model)
+    assert isinstance(output_transformer, LabelBinarizer)
+
