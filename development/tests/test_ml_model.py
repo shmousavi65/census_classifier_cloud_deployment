@@ -44,4 +44,3 @@ def test_load_model():
     path_to_model = os.path.join(prev_dir, "model/model.pkl")
     input_pipe, output_transformer = load_model(path_to_model)
     assert isinstance(output_transformer, LabelBinarizer)
-
