@@ -28,10 +28,10 @@ example_series = example_df.iloc[example_df_index]
 example_series = example_series[used_columns]
 example_dict = example_series.to_dict()
 
-app_get_url = "https://census-classifier-cloud-deploy-ebb5c04da69c.\
-    herokuapp.com/"
-app_post_url = "https://census-classifier-cloud-deploy-ebb5c04da69c.\
-    herokuapp.com/inference/"
+app_get_url = "https://census-classifier-cloud-deploy-ebb5c04da69c." \
+    "herokuapp.com/"
+app_post_url = "https://census-classifier-cloud-deploy-ebb5c04da69c." \
+    "herokuapp.com/inference/"
 
 
 if __name__ == "__main__":
