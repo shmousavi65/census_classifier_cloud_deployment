@@ -21,9 +21,9 @@ For additional information see the Model Card paper: https://arxiv.org/pdf/1810.
 
 ## Metrics
 Here are the performance metrics and the values on the Evaluation data:
-    - Precision:
-    - Recall: 
-    - Fbeta:
+    - Precision: 0.74
+    - Recall: 0.61
+    - Fbeta: 0.67
 
 ## Ethical Considerations
 This model has not been thoroughly investigated and has been only developed for learning purposes.
