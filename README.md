@@ -1,5 +1,5 @@
 The project follows production-level code practices to develop and deploy a classification model for income on Census data. The entire pipeline is developed as an MLOps process, with MLflow used to create isolated pipeline components and track experiments (including parameters, performance metrics, etc.). Data Version Control (DVC) is integrated with Amazon AWS and is used to store and track data and trained models. The project also uses GitHub Actions (for CI) and Heroku (for CD) to implement CI/CD practices and build an end-to-end, fully reproducible, and automated ML pipeline. It’s important to note that the primary goal of this project is to showcase MLOps skills, rather than to achieve superior model performance.
- 
+
 ## Environment Set up
 Note that WSL1 (Ubuntu-20.04) has been used for the whole processes.
 
@@ -109,4 +109,7 @@ by running the following command in the `development/pipeline/outputs` directory
 ```
 mlflow ui
 ```
+
+### Credit
+This project has been done as a part of Udacity's ML DevOps Engineer nanodegree program. You can follow and find all the changes that this repo has done compared to the original starter repo (which this repo is forked from). 
 
