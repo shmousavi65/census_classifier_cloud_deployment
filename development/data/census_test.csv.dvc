@@ -1,5 +1,0 @@
-outs:
-- md5: 4597863497204a65f8b5f62168bfa608
-  size: 761826
-  hash: md5
-  path: census_test.csv
