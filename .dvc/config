@@ -1,4 +1,4 @@
 [core]
-    remote = gdremote
-['remote "gdremote"']
-    url = s3://shm-dvc-server
+    remote = s3cache
+['remote "s3cache"']
+    url = s3://census-ml-shm/dvc
