@@ -41,9 +41,6 @@ jobs:
         pytest --version
         dvc --version || true
         aws --version || true
-
-    - name: Verify AWS identity
-      run: aws sts get-caller-identity
     
     - name: Lint with flake8
       run: |
