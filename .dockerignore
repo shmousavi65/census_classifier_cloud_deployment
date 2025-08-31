@@ -1,0 +1,8 @@
+_pycache/
+env/
+.git/
+development/screenshots/
+development/pipeline/outputs
+.dvc/
+.github/
+
