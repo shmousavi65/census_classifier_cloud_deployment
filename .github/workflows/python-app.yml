@@ -55,7 +55,7 @@ jobs:
         # flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     
     - name: "Configure AWS Credentials"
-      uses: aws-actions/configure-aws-credentials@v4.0.1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: us-east-1
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
