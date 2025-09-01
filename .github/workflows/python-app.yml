@@ -79,8 +79,8 @@ jobs:
     
     - name: Data check (schema & stats)
       run: |
-        python development/pipeline/data_check/run.py \
-         --data_path development/data/census.csv > /dev/null 2>&1
+        cd development/pipeline/data_check
+        pytest -s -vv . --data_path ../../data/census.csv
 
     - name: Test with pytest
       run: |
