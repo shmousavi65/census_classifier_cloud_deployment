@@ -77,6 +77,11 @@ jobs:
       run: |
         dvc pull -f
     
+    - name: Data check (schema & stats)
+      run: |
+        python development/pipeline/data_check/run.py \
+          --data_path development/data/census.csv
+
     - name: Test with pytest
       run: |
         cd development/tests
