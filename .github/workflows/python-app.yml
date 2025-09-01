@@ -46,9 +46,6 @@ jobs:
     # --- Security & Supply-chain ---
     - name: Bandit (SAST)
       run: |
-        echo "=== bandit.yaml in CWD ==="
-        test -f bandit.yaml && cat bandit.yaml || echo "bandit.yaml NOT FOUND"
-        echo "=== running bandit with explicit config and thresholds ==="
         bandit -r . -c bandit.yaml --severity-level high --confidence-level low --quiet
 
     - name: Dependency audit (pip-audit)
