@@ -17,9 +17,13 @@ def go(args):
         "--data_path", args.data_path,
     ]
     with log_path.open("w", encoding="utf-8") as f:
-        _ = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
+        result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
                            check=False)
-    mlflow.log_artifact(log_file)
+    if os.getenv("DATA_CHECK_LOG_MLFLOW", "0") == "1":
+        mlflow.log_artifact(str(log_path))
+    # make CI fail if tests failed
+    if result.returncode != 0:
+        raise SystemExit(result.returncode)
     os.remove(log_file)
 
 

@@ -9,8 +9,11 @@ def go():
     log_path.parent.mkdir(parents=True, exist_ok=True)
     cmd = [sys.executable, "-m", "pytest", "-s", "-vv", "."]
     with log_path.open("w", encoding="utf-8") as f:
-        _ = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
+        result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
                            check=False)
+    
+    if result.returncode != 0:
+        raise SystemExit(result.returncode)
 
 
 if __name__ == "__main__":

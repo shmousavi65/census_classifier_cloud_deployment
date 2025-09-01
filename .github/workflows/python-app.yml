@@ -80,7 +80,7 @@ jobs:
     - name: Data check (schema & stats)
       run: |
         python development/pipeline/data_check/run.py \
-          --data_path development/data/census.csv
+         --data_path development/data/census.csv > /dev/null 2>&1
 
     - name: Test with pytest
       run: |
