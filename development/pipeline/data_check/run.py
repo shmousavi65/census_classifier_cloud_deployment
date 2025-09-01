@@ -7,8 +7,9 @@ from pathlib import Path
 
 
 def go(args):
+    here = Path(__file__).parent
     log_file = "log.log"
-    log_path = Path(log_file)
+    log_path = here / log_file
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     cmd = [
@@ -18,9 +19,9 @@ def go(args):
     ]
     with log_path.open("w", encoding="utf-8") as f:
         result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
-                                check=False)
-    if os.getenv("DATA_CHECK_LOG_MLFLOW", "0") == "1":
-        mlflow.log_artifact(str(log_path))
+                                cwd=here, check=False)
+
+    mlflow.log_artifact(str(log_path))
     # make CI fail if tests failed
     if result.returncode != 0:
         raise SystemExit(result.returncode)
