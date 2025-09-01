@@ -1,12 +1,24 @@
 import os
 import mlflow
 import argparse
+import sys
+import subprocess
+from pathlib import Path
 
 
 def go(args):
     log_file = "log.log"
-    exec_command = f"pytest -s -vv . --data_path {args.data_path} > {log_file}"
-    os.system(exec_command)
+    log_path = Path(log_file)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    cmd = [
+        sys.executable, "-m", "pytest",
+        "-s", "-vv", ".",
+        "--data_path", args.data_path,
+    ]
+    with log_path.open("w", encoding="utf-8") as f:
+        _ = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
+                           check=False)
     mlflow.log_artifact(log_file)
     os.remove(log_file)
 

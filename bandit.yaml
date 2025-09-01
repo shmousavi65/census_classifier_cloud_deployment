@@ -1,0 +1,7 @@
+skips: []           # add rule IDs here to suppress specific checks repo-wide (prefer targeted #nosec)
+exclude_dirs:
+  - .git
+  - env
+  - env_dev
+severity: high
+confidence: low 
