@@ -1,5 +1,5 @@
 # .flake8
 [flake8]
 extend-ignore = E402
-exclude = .git,__pycache__,env,build,dist
+exclude = .git, __pycache__, env, env_dev, build,dist
 max-complexity = 16
