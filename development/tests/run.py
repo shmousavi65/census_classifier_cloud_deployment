@@ -10,8 +10,8 @@ def go():
     cmd = [sys.executable, "-m", "pytest", "-s", "-vv", "."]
     with log_path.open("w", encoding="utf-8") as f:
         result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
-                           check=False)
-    
+                                check=False)
+
     if result.returncode != 0:
         raise SystemExit(result.returncode)
 

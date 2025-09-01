@@ -18,7 +18,7 @@ def go(args):
     ]
     with log_path.open("w", encoding="utf-8") as f:
         result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
-                           check=False)
+                                check=False)
     if os.getenv("DATA_CHECK_LOG_MLFLOW", "0") == "1":
         mlflow.log_artifact(str(log_path))
     # make CI fail if tests failed
