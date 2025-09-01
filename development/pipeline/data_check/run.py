@@ -7,25 +7,32 @@ from pathlib import Path
 
 
 def go(args):
-    here = Path(__file__).parent
-    log_file = "log.log"
-    log_path = here / log_file
-    log_path.parent.mkdir(parents=True, exist_ok=True)
+    here = Path(__file__).resolve().parent
+    repo_root = here.parents[2]
+    log_path = here / "log.log"
 
-    cmd = [
-        sys.executable, "-m", "pytest",
-        "-s", "-vv", ".",
-        "--data_path", args.data_path,
-    ]
+    # Resolve data_path relative to repo root if not absolute
+    data_path = Path(args.data_path)
+    if not data_path.is_absolute():
+        data_path = (repo_root / data_path).resolve()
+    if not data_path.exists():
+        raise SystemExit(
+            f"[data_check] Dataset not found at: {data_path}\n"
+            f"Did you run 'dvc pull' from the repo root?"
+        )
+
+    # Run pytest in the component dir so its local conftest.py is discovered
+    cmd = [sys.executable, "-m", "pytest", "-s", "-vv", ".", "--data_path",
+           str(data_path)]
     with log_path.open("w", encoding="utf-8") as f:
-        result = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT,
-                                cwd=here, check=False)
+        result = subprocess.run(cmd, cwd=here, stdout=f,
+                                stderr=subprocess.STDOUT, check=False)
 
     mlflow.log_artifact(str(log_path))
     # make CI fail if tests failed
     if result.returncode != 0:
         raise SystemExit(result.returncode)
-    os.remove(log_file)
+    os.remove(log_path)
 
 
 if __name__ == "__main__":
